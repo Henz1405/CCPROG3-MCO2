@@ -16,7 +16,7 @@ public class titleScreen extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 1));
 
-        JLabel titleLabel = new JLabel("Welcome to My Game");
+        JLabel titleLabel = new JLabel("Welcome to Elden Rogue");
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titleLabel);
 
@@ -47,7 +47,7 @@ public class titleScreen extends JFrame {
     }
 
     private void openCharacterCreator() {
-        CharacterCreator characterCreator = new CharacterCreator();
+        CharacterCreator CharacterCreator = new characterCreator();
         dispose(); // Close the title screen
     }
 
