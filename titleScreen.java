@@ -1,60 +1,61 @@
-import java.awt.Font;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class titleScreen extends JFrame{
-    JButton startGame;
-    JButton closeGame;
-    private Character C=new Character();
-    public titleScreen(Character C){
-        this.C=C;
-        this.startGame=new JButton();
-        this.closeGame=new JButton();
+public class titleScreen extends JFrame {
+    private JButton enterButton;
+    private JButton exitButton;
 
-        startGame.setBounds(200, 300, 100, 50);
-        startGame.setText("START GAME");
-        startGame.setFont(new Font(getName(), Font.PLAIN, 8));
-        startGame.addActionListener(e -> opencharacterCreator(C));
-        startGame.setFocusable(false);
+    public titleScreen() {
+        setTitle("Title Screen");
+        setSize(300, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Center the window
 
-        closeGame.setText("CLOSE GAME");
-        closeGame.setBounds(200, 350, 100, 50);
-        closeGame.setFont(new Font(getName(), Font.PLAIN, 8));
-        closeGame.addActionListener(e -> closeApp());
-        closeGame.setFocusable(false);
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 1));
 
-        JLabel Label1= new JLabel();
-        Label1.setText("ELDEN ROGUE");
-        Label1.setBounds(180, 150, 150, 150);
-        Label1.setHorizontalAlignment(JLabel.CENTER);
-        Label1.setFont(new Font(getName(), Font.PLAIN, 20));
-        
+        JLabel titleLabel = new JLabel("Welcome to My Game");
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(titleLabel);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
-        this.setSize(500, 500);
-        this.setVisible(true);
-        this.add(Label1);
-        this.add(startGame);
-        this.add(closeGame);
-        this.setTitle("TITLESCREEN");
+        enterButton = new JButton("Enter Game");
+        enterButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Handle entering the game
+                JOptionPane.showMessageDialog(null, "Entering the character creator...");
+                openCharacterCreator();
+            }
+        });
+        panel.add(enterButton);
+
+        exitButton = new JButton("Exit Game");
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Handle exiting the game
+                int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+        panel.add(exitButton);
+
+        add(panel);
+        setVisible(true);
     }
 
-
-    private void opencharacterCreator(Character C){
-        if (this.C.getisCreated()==false){
-            characterCreator characterCreator=new characterCreator(C);
-            this.dispose();
-        }
-        else if(this.C.getisCreated()==true){
-            gameLobby gameLobby=new gameLobby(C);
-            this.dispose();
-        }
+    private void openCharacterCreator() {
+        CharacterCreator characterCreator = new CharacterCreator();
+        dispose(); // Close the title screen
     }
 
-    private void closeApp(){
-        this.dispose();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new titleScreen();
+            }
+        });
     }
-
 }
-
-
