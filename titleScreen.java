@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 public class titleScreen extends JFrame {
     private JButton enterButton;
     private JButton exitButton;
+    private Character C;
 
-    public titleScreen() {
+    public titleScreen(Character C) {
+        this.C=C;
         setTitle("Title Screen");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,7 +26,6 @@ public class titleScreen extends JFrame {
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Handle entering the game
-                JOptionPane.showMessageDialog(null, "Entering the character creator...");
                 openCharacterCreator();
             }
         });
@@ -47,15 +48,16 @@ public class titleScreen extends JFrame {
     }
 
     private void openCharacterCreator() {
-        CharacterCreator CharacterCreator = new characterCreator();
-        dispose(); // Close the title screen
+        if (this.C.getisCreated()==false){
+            JOptionPane.showMessageDialog(null, "Entering the character creator...");
+            characterCreator CharacterCreator = new characterCreator(this.C);
+            this.dispose();
+        }
+        else if(this.C.getisCreated()==true){
+            gameLobby gameLobby=new gameLobby(this.C);
+            this.dispose();
+        }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new titleScreen();
-            }
-        });
-    }
+    
 }
