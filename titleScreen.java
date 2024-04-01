@@ -23,6 +23,7 @@ public class titleScreen extends JFrame {
         panel.add(titleLabel);
 
         enterButton = new JButton("Enter Game");
+        enterButton.setFocusable(false);
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Handle entering the game
@@ -32,6 +33,7 @@ public class titleScreen extends JFrame {
         panel.add(enterButton);
 
         exitButton = new JButton("Exit Game");
+        exitButton.setFocusable(false);
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Handle exiting the game

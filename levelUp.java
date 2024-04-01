@@ -78,6 +78,7 @@ public class levelUp extends JFrame{
         this.add(backButton);
         this.add(levelUp);
         this.add(displayLevel);
+        this.setLocationRelativeTo(null);
 
         updateDisplayRunes(this.C.getPLAYER_RUNES());
         updateDisplayHp(this.C.getPLAYER_HP());

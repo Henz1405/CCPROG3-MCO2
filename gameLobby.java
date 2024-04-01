@@ -76,21 +76,15 @@ public class gameLobby extends JFrame{
         this.add(characterLevel);
         this.add(characterJobClass);
         this.add(characterRunes);
+        this.setLocationRelativeTo(null);
         updateNameLabel(this.C.getPLAYER_NAME());
         updateLevelLabel(this.C.getPLAYER_LEVEL());
         updateJobClassLabel(this.C.getPLAYER_JOBCLASS());
         updateRunesLabel(this.C.getPLAYER_RUNES());
     }
     private void openInventory(){
-        if (this.C.getInventory().isEmpty()){
-            System.out.println("NO ITEMS");
-        }
-        else{
-            for (int x=0; x<this.C.getInventory().size(); x++)
-            {
-                System.out.println("Weapon"+"["+x+"]: "+this.C.getInventory().get(x).getWeaponName());
-            }
-        }
+        inventory inventory=new inventory(this.C);
+        this.dispose();
     }
     private void openStore(){
         store store=new store(this.C);

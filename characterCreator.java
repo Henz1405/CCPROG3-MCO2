@@ -89,6 +89,7 @@ public class characterCreator extends JFrame implements ActionListener {
         this.add(Label8);
         this.add(characterClass);
         this.add(characterName);
+        this.setLocationRelativeTo(null);
     }
 
     private void updateName(String characterName){
