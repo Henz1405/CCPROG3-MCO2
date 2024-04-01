@@ -12,6 +12,7 @@ public class gameLobby extends JFrame{
     private JLabel characterLevel;
     private JLabel characterJobClass;
     private JLabel characterRunes;
+    private Area1 Area1=new Area1();
 
     public gameLobby(Character C){
         this.C=C;
@@ -84,7 +85,7 @@ public class gameLobby extends JFrame{
         updateRunesLabel(this.C.getPLAYER_RUNES());
     }
     private void openLevelMovement(){
-        levelMovement levelMovement=new levelMovement(this.C);
+        levelMovement levelMovement=new levelMovement(this.C, this.Area1.getMap1(), this.Area1.getAreaName(), this.Area1.getPlayerCol(), this.Area1.getPlayerRow(), this.Area1.getAreaIndex());
         levelMovement.setVisible(true);
         this.dispose();
     }
