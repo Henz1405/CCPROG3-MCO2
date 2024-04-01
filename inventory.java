@@ -42,7 +42,6 @@ public class inventory extends JFrame {
     private void equipWeapon(){
         try {
             int option=Integer.parseInt(JOptionPane.showInputDialog("ENTER WEAPON INDEX (0: first)"));
-            System.out.println(this.C.getInventory().get(option).getWeaponName());
             int option2=JOptionPane.showConfirmDialog(null, "Weapon Name: "+this.C.getInventory().get(option).getWeaponName()+"\nWeapon HP: "+this.C.getInventory().get(option).getWeaponHp()+"\nWeapon DEX: "+this.C.getInventory().get(option).getWeaponDex()+"\nWeapon END: "+this.C.getInventory().get(option).getWeaponDex()+"\nWeapon STR: "+this.C.getInventory().get(option).getWeaponStr()+"\nWeapon INT: "+this.C.getInventory().get(option).getWeaponInt()+"\nWeapon FTH: "+this.C.getInventory().get(option).getWeaponFth(), "EQUIP WEAPON?", JOptionPane.YES_NO_OPTION);
             if (option2==0){
                 if (this.C.getPLAYER_DEX()>=this.C.getInventory().get(option).getWeaponDex())

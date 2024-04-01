@@ -33,6 +33,7 @@ public class gameLobby extends JFrame{
         fastTravel.setBounds(205, 160, 90, 50);
         fastTravel.setFocusable(false);
         fastTravel.setFont(new Font(getName(), Font.PLAIN, 7));
+        fastTravel.addActionListener(e->openLevelMovement());
 
         levelUp=new JButton();
         levelUp.setText("LEVELUP");
@@ -82,6 +83,12 @@ public class gameLobby extends JFrame{
         updateJobClassLabel(this.C.getPLAYER_JOBCLASS());
         updateRunesLabel(this.C.getPLAYER_RUNES());
     }
+    private void openLevelMovement(){
+        levelMovement levelMovement=new levelMovement(this.C);
+        levelMovement.setVisible(true);
+        this.dispose();
+    }
+
     private void openInventory(){
         inventory inventory=new inventory(this.C);
         this.dispose();
