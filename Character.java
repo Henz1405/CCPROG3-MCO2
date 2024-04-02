@@ -18,7 +18,9 @@ public class Character {
     private int PLAYER_RUNES=100000;
     private boolean isCreated=false;
     private Weapon equippedWeapon=new Weapon();
-    private int PLAYER_MAX_HEALTH;
+    private int PLAYER_MAX_HEALTH=0;
+    private boolean defeatedBossOne=false;
+    private boolean defeatedBossTwo=false;
     private ArrayList<Weapon> Inventory=new ArrayList<Weapon>();
 
     public int getPLAYER_MAX_HEALTH() {
@@ -27,6 +29,22 @@ public class Character {
 
     public void setPLAYER_MAX_HEALTH(int pLAYER_MAX_HEALTH) {
         PLAYER_MAX_HEALTH = pLAYER_MAX_HEALTH;
+    }
+
+    public boolean getDefeatedBossOne(){
+        return this.defeatedBossOne;
+    }
+
+    public boolean getDefeatedBossTwo(){
+        return this.defeatedBossTwo;
+    }
+
+    public void setDefeatedBossOne(boolean defeat){
+        this.defeatedBossOne=defeat;
+    }
+
+    public void setDefeatedBossTwo(boolean defeat){
+        this.defeatedBossTwo=defeat;
     }
 
     /**

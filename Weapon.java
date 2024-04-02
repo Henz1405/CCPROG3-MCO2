@@ -45,7 +45,5 @@ public class Weapon {
     public int getWeaponStr() {
         return weaponStr;
     }
-    
-
 }
 

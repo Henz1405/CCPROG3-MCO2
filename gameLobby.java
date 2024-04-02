@@ -13,6 +13,8 @@ public class gameLobby extends JFrame{
     private JLabel characterJobClass;
     private JLabel characterRunes;
     private Area1 Area1=new Area1();
+    private Area2 Area2=new Area2();
+    private Area3 Area3=new Area3();
 
     public gameLobby(Character C){
         this.C=C;
@@ -85,9 +87,31 @@ public class gameLobby extends JFrame{
         updateRunesLabel(this.C.getPLAYER_RUNES());
     }
     private void openLevelMovement(){
-        levelMovement levelMovement=new levelMovement(this.C, this.Area1.getMap1(), this.Area1.getAreaName(), this.Area1.getPlayerCol(), this.Area1.getPlayerRow(), this.Area1.getAreaIndex());
-        levelMovement.setVisible(true);
-        this.dispose();
+        String input=JOptionPane.showInputDialog("(1) Stormveil Castle\n(2) Raya Lucaria\n(3) Elden Throne");
+        switch (input){
+            case "1":
+                levelMovement levelMovement=new levelMovement(this.C, this.Area1.getMap1(), this.Area1.getAreaName(), this.Area1.getPlayerCol(), this.Area1.getPlayerRow(), this.Area1.getAreaIndex());
+                levelMovement.setVisible(true);
+                this.dispose();
+                break;
+            case "2":
+                levelMovement levelMovement2=new levelMovement(this.C, this.Area2.getMap2(), this.Area2.getAreaName(), this.Area2.getPlayerCol(), this.Area2.getPlayerRow(), this.Area2.getAreaIndex());
+                levelMovement2.setVisible(true);
+                this.dispose();
+                break;
+            case "3":
+            if (this.C.getDefeatedBossOne()==false&&this.C.getDefeatedBossTwo()==false){
+                JOptionPane.showMessageDialog(null, "Defeat the Grafted Demigod and The Queen of the moon\n Only then can you enter");
+                break;
+            }
+            else if(this.C.getDefeatedBossOne()==true&&this.C.getDefeatedBossTwo()==true){
+                levelMovement levelMovement3=new levelMovement(this.C, this.Area3.getMap3(), this.Area3.getAreaName(), this.Area3.getPlayerCol(), this.Area3.getPlayerRow(), this.Area3.getAreaIndex());
+                levelMovement3.setVisible(true);
+                this.dispose();
+                break;
+            }
+                
+        }
     }
 
     private void openInventory(){

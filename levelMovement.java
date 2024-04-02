@@ -19,9 +19,17 @@ public class levelMovement extends JFrame implements KeyListener {
     private doorTileCoordinates doorTileCoordinates=new doorTileCoordinates();
     private spawnTileCoordinates spawnTileCoordinates=new spawnTileCoordinates();
     private int areaIndex;
+    private JLabel displayRunes;
+    private JLabel displayPLAYER_MAX_HEALTH;
+    private EnemyManager enemyManager=new EnemyManager();
 
     public levelMovement(Character C, char map[][][], String areaName, int playerX, int playerY, int areaIndex) {
         this.C = C;
+        if (this.C.getPLAYER_MAX_HEALTH()==0)
+        {
+            this.C.setPLAYER_MAX_HEALTH(100*((this.C.getPLAYER_HP()+this.C.getEquippedWeapon().getWeaponHp())));
+        }
+        
         this.map = map;
         this.playerX=playerX;
         this.playerY=playerY;
@@ -34,6 +42,16 @@ public class levelMovement extends JFrame implements KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(false);
+        displayRunes=new JLabel();
+        displayPLAYER_MAX_HEALTH=new JLabel();
+
+        displayRunes.setBounds(10, 10, 200, 20); 
+        displayPLAYER_MAX_HEALTH.setBounds(10, 20, 200, 20);
+
+        this.add(displayRunes);
+        this.add(displayPLAYER_MAX_HEALTH);
+        updateDisplayRunes();
+        updateDisplayPLAYER_MAX_HEALTH();
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -43,9 +61,17 @@ public class levelMovement extends JFrame implements KeyListener {
         });
     }
 
+    private void updateDisplayRunes(){
+        displayRunes.setText("RUNES: "+this.C.getPLAYER_RUNES());
+    }
+
+    private void updateDisplayPLAYER_MAX_HEALTH(){
+        displayPLAYER_MAX_HEALTH.setText("PLAYER MAX HEALTH: "+this.C.getPLAYER_MAX_HEALTH());
+    }
+
     private void updateOffset() {
-        int gridWidth = map[playerFloor][0].length * CELL_SIZE;
-        int gridHeight = map[playerFloor].length * CELL_SIZE;
+        int gridWidth = this.map[playerFloor][0].length * CELL_SIZE;
+        int gridHeight = this.map[playerFloor].length * CELL_SIZE;
 
         offsetX = (getWidth() - gridWidth) / 2;
         offsetY = (getHeight() - gridHeight) / 2;
@@ -57,10 +83,10 @@ public class levelMovement extends JFrame implements KeyListener {
 
         updateOffset();
 
-        for (int y = 0; y < map[playerFloor].length; y++) {
-            for (int x = 0; x < map[playerFloor][y].length; x++) {
+        for (int y = 0; y < this.map[playerFloor].length; y++) {
+            for (int x = 0; x < this.map[playerFloor][y].length; x++) {
                 g.drawRect(offsetX + x * CELL_SIZE, offsetY + y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                g.drawString(String.valueOf(map[playerFloor][y][x]), offsetX + x * CELL_SIZE + CELL_SIZE / 2, offsetY + y * CELL_SIZE + CELL_SIZE / 2);
+                g.drawString(String.valueOf(this.map[playerFloor][y][x]), offsetX + x * CELL_SIZE + CELL_SIZE / 2, offsetY + y * CELL_SIZE + CELL_SIZE / 2);
             }
         }
 
@@ -74,7 +100,7 @@ public class levelMovement extends JFrame implements KeyListener {
         int newX = playerX + dx;
         int newY = playerY + dy;
 
-        if (newX >= 0 && newX < map[playerFloor][0].length && newY >= 0 && newY < map[playerFloor].length) {
+        if (newX >= 0 && newX < this.map[playerFloor][0].length && newY >= 0 && newY < this.map[playerFloor].length) {
             playerX = newX;
             playerY = newY;
             repaint();
@@ -87,25 +113,25 @@ public class levelMovement extends JFrame implements KeyListener {
 
         switch (key) {
             case KeyEvent.VK_UP:
-            if (map[playerFloor][playerY - 1][playerX] != '#')
+            if (this.map[playerFloor][playerY - 1][playerX] != '#')
             {
                 movePlayer(0, -1);
             }
             break;
             case KeyEvent.VK_DOWN:
-            if (map[playerFloor][playerY + 1][playerX] != '#')
+            if (this.map[playerFloor][playerY + 1][playerX] != '#')
             {
                 movePlayer(0, 1);
             }
             break;
             case KeyEvent.VK_LEFT:
-            if (map[playerFloor][playerY][playerX - 1] != '#')
+            if (this.map[playerFloor][playerY][playerX - 1] != '#')
             {
                 movePlayer(-1, 0);
             }
             break;
             case KeyEvent.VK_RIGHT:
-            if (map[playerFloor][playerY][playerX + 1] != '#')
+            if (this.map[playerFloor][playerY][playerX + 1] != '#')
             {
                 movePlayer(1, 0);
             }
@@ -113,33 +139,92 @@ public class levelMovement extends JFrame implements KeyListener {
             case KeyEvent.VK_E:
                 if (areaIndex==1)
                 {
-                    if (checkSpawnTile(playerY, playerX, playerFloor, spawnTileCoordinates.getAreaOneSpawnTiles(), map)==true){
+                    if (checkSpawnTile(playerY, playerX, playerFloor, spawnTileCoordinates.getAreaOneSpawnTiles(), this.map)==true){
                         Random rand=new Random();
                         double probability = rand.nextDouble();
                         if (probability<0.75){
-                            JOptionPane.showMessageDialog(null, "BATTLE!!");
+                            Enemy enemy=enemyManager.generateEnemy(this.areaIndex);
+                            battleManager battleManager=new battleManager(this.C, this.map, this.playerX, this.playerY, this.areaIndex, enemy);
+                            this.dispose();
                         }
                         else{
-                            JOptionPane.showMessageDialog(null, "TREASURE");
+                            int randomNumber = (rand.nextInt(101) + 50)*this.areaIndex;
+                            JOptionPane.showMessageDialog(null, "TREASURE: "+randomNumber+" RUNES!!");
+                            this.C.setCharacterRunes(this.C.getPLAYER_RUNES()+randomNumber);
+                            updateDisplayRunes();
                         }
                     }
-                    else if(checkDoorTile(playerY, playerX, playerFloor, doorTileCoordinates.getAreaOneDoorTiles(), map)==true){
-                        int arr[]=activateDoor(playerY, playerX, playerFloor, doorTileCoordinates.getAreaOneDoorTiles(), map);
+                    else if(checkDoorTile(playerY, playerX, playerFloor, doorTileCoordinates.getAreaOneDoorTiles(), this.map)==true){
+                        int arr[]=activateDoor(playerY, playerX, playerFloor, doorTileCoordinates.getAreaOneDoorTiles(), this.map);
                         playerFloor=arr[0];
                         playerY=arr[1];
                         playerX=arr[2];
                         repaint();
                     }
-                    else if(map[playerFloor][playerY][playerX]=='F')
+                    else if(this.map[playerFloor][playerY][playerX]=='F')
                     {
-                        spawnTileCoordinates.resetStatus(map);
+                        spawnTileCoordinates.resetStatus(this.map);
+                        gameLobby gameLobby=new gameLobby(this.C);
+                        this.dispose();
+                    }
+                }
+                else if(areaIndex==2){
+                    if (checkSpawnTile(playerY, playerX, playerFloor, spawnTileCoordinates.getAreaTwoSpawnTiles(), this.map)==true){
+                        Random rand=new Random();
+                        double probability = rand.nextDouble();
+                        if (probability<0.75){
+                            Enemy enemy=enemyManager.generateEnemy(this.areaIndex);
+                            JOptionPane.showMessageDialog(null, "BATTLE!!\n "+"ENEMY NAME: "+enemy.getENEMY_NAME()+"\n ENEMY PHYS_DEF: "+enemy.getPHYS_DEF()+"\n ENEMY SOR_DEF: "+enemy.getSOR_DEF()+"\nENEMY INC_DEF: "+enemy.getINC_DEF());
+                        }
+                        else{
+                            int randomNumber = (rand.nextInt(101) + 50)*this.areaIndex;
+                            JOptionPane.showMessageDialog(null, "TREASURE: "+randomNumber+" RUNES!!");
+                            this.C.setCharacterRunes(this.C.getPLAYER_RUNES()+randomNumber);
+                            updateDisplayRunes();
+                        }
+                    }
+                    else if(checkDoorTile(playerY, playerX, playerFloor, doorTileCoordinates.getAreaTwoDoorTiles(), this.map)==true){
+                        int arr[]=activateDoor(playerY, playerX, playerFloor, doorTileCoordinates.getAreaTwoDoorTiles(), this.map);
+                        playerFloor=arr[0];
+                        playerY=arr[1];
+                        playerX=arr[2];
+                        repaint();
+                    }
+                    else if(this.map[playerFloor][playerY][playerX]=='F')
+                    {
+                        spawnTileCoordinates.resetStatus(this.map);
+                        gameLobby gameLobby=new gameLobby(this.C);
+                        this.dispose();
+                    }
+                }
+                else if(areaIndex==3){
+                    if (checkSpawnTile(playerY, playerX, playerFloor, spawnTileCoordinates.getAreaThreeSpawnTiles(), this.map)==true){
+                        Random rand=new Random();
+                        int randomNumber = (rand.nextInt(101) + 50)*this.areaIndex;
+                        JOptionPane.showMessageDialog(null, "TREASURE: "+randomNumber+" RUNES!!");
+                        this.C.setCharacterRunes(this.C.getPLAYER_RUNES()+randomNumber);
+                        updateDisplayRunes();
+                        
+                    }
+                    else if(checkDoorTile(playerY, playerX, playerFloor, doorTileCoordinates.getAreaThreeDoorTiles(), this.map)==true){
+                        int arr[]=activateDoor(playerY, playerX, playerFloor, doorTileCoordinates.getAreaThreeDoorTiles(), this.map);
+                        playerFloor=arr[0];
+                        playerY=arr[1];
+                        playerX=arr[2];
+                        repaint();
+                    }
+                    else if(this.map[playerFloor][playerY][playerX]=='F')
+                    {
+                        spawnTileCoordinates.resetStatus(this.map);
                         gameLobby gameLobby=new gameLobby(this.C);
                         this.dispose();
                     }
                 }
                 break;
+                }
+                
         }
-    }
+    
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -159,7 +244,7 @@ public class levelMovement extends JFrame implements KeyListener {
            if (playerFloor==area&&playerRow==x&&playerCol==y&&SpawnTiles[i][3]!=0)
            {
                 SpawnTiles[i][3]=0;
-                map[area][x][y]='X';
+                this.map[area][x][y]='X';
                 return true;
            }
         }
