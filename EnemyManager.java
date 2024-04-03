@@ -30,8 +30,6 @@ public class EnemyManager {
             {
                 enemy.setENEMY_NAME("Living Jar");
             }
-            //BattleManager.battleStart(C, enemy, areaIndex,scanner);//Starts the battle with generated enemy
-
             return enemy;
         }
         else if (randomNumber==2)
@@ -46,8 +44,6 @@ public class EnemyManager {
             {
                 enemy.setENEMY_NAME("Glintstone Sorcerer");
             }
-            //BattleManager.battleStart(C, enemy, areaIndex, scanner);//Starts the battle with generated enemy
-
             return enemy;
         }
         else if (randomNumber==3)
@@ -62,7 +58,6 @@ public class EnemyManager {
             {
                 enemy.setENEMY_NAME("Battlemage");
             }
-            //BattleManager.battleStart(C, enemy, areaIndex, scanner);//Starts the battle with generated enemy
             return enemy;
         }
         return enemyvoid;
@@ -81,26 +76,20 @@ public class EnemyManager {
         Enemy enemyvoid= new Enemy();
         if (areaIndex==1)
         {
-            //int ENEMY_ATTACK=random.nextInt(151) + 150;
             Enemy enemy=new Enemy(200, 0.35, 0.20, 0.15, 4);
             enemy.setENEMY_NAME("Godrick the Grafted");
-            //BattleManager.battleStart(C, enemy, areaIndex, scanner);//Starts the battle with generated enemy
             return enemy;
         }
         else if(areaIndex==2)
         {
-            //int ENEMY_ATTACK=random.nextInt(101) + 200;
             Enemy enemy=new Enemy(400, 0.15, 0.35, 0.25, 5);
             enemy.setENEMY_NAME("Rennala, Queen of the Moon");
-            //BattleManager.battleStart(C, enemy, areaIndex, scanner);//Starts the battle with generated enemy
             return enemy;
         }
         else if(areaIndex==3)
         {
-            //int ENEMY_ATTACK=random.nextInt(251) + 250;
             Enemy enemy=new Enemy(800, 0.25, 0.50, 0.40, 6);
             enemy.setENEMY_NAME("The Elden Beast");
-            //BattleManager.battleStart(C, enemy, areaIndex, scanner);//Starts the battle with generated enemy
             return enemy;
         }
         return enemyvoid;

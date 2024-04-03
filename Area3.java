@@ -1,3 +1,9 @@
+/**
+ * The Area3 class contains the map of Area three 
+ * and its multiple floors, the starting position <br>
+ * of the player, its name, and its index. 
+ */
+
 public class Area3 {
     private int playerRow = 9;//Player's starting Y position
     private int playerCol = 2;//Player's starting X position

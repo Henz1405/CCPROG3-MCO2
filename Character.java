@@ -15,7 +15,7 @@ public class Character {
     private int PLAYER_END=0;
     private int PLAYER_STR=0;
     private int PLAYER_FTH=0;
-    private int PLAYER_RUNES=10000;
+    private int PLAYER_RUNES=0;
     private boolean isCreated=false;
     private Weapon equippedWeapon=new Weapon();
     private int PLAYER_MAX_HEALTH=0;
@@ -23,26 +23,50 @@ public class Character {
     private boolean defeatedBossTwo=false;
     private ArrayList<Weapon> Inventory=new ArrayList<Weapon>();
 
+    /**
+     * Returns the player's calculated max health
+     * @return Player's maximum health
+     */
     public int getPLAYER_MAX_HEALTH() {
         return PLAYER_MAX_HEALTH;
     }
 
+    /**
+     * Set's the player's calculated max Health
+     * @param pLAYER_MAX_HEALTH player's maximum health
+     */
     public void setPLAYER_MAX_HEALTH(int pLAYER_MAX_HEALTH) {
         PLAYER_MAX_HEALTH = pLAYER_MAX_HEALTH;
     }
 
+    /**
+     * Returns the defeat status of the first boss
+     * @return Defeat status of the first boss
+     */
     public boolean getDefeatedBossOne(){
         return this.defeatedBossOne;
     }
 
+    /**
+     * Returns the defeat status of the second boss
+     * @return Defeat status of the second boss
+     */
     public boolean getDefeatedBossTwo(){
         return this.defeatedBossTwo;
     }
 
+    /**
+     * Set's the defeat status of the first boss
+     * @param defeat The defeat status of the first boss
+     */
     public void setDefeatedBossOne(boolean defeat){
         this.defeatedBossOne=defeat;
     }
 
+    /**
+     * Set's the defeat status of the second boss
+     * @param defeat The defeat status of the second boss
+     */
     public void setDefeatedBossTwo(boolean defeat){
         this.defeatedBossTwo=defeat;
     }
@@ -269,18 +293,34 @@ public class Character {
         return this.PLAYER_FTH;
     }
 
+    /**
+     * Set's the player's weapon
+     * @param equippedWeapon The equipped weapon
+     */
     public void setEquippedWeapon(Weapon equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
     }
 
+    /**
+     * Get's the player's equipped weapon
+     * @return The equipped weapon
+     */
     public Weapon getEquippedWeapon() {
         return equippedWeapon;
     }
 
+    /**
+     * Returns the arrayList for the player's inventory.
+     * @return The player's Inventory
+     */
     public ArrayList<Weapon> getInventory() {
         return Inventory;
     }
 
+    /**
+     * Adds a weapon to the player's inventory.
+     * @param weapon The weapon being added
+     */
     public void addWeapon(Weapon weapon)
     {
         Inventory.add(weapon);

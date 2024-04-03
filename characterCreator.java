@@ -3,6 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+/**
+ * This class represents our character creator screen
+ */
 public class characterCreator extends JFrame implements ActionListener {
 
     private JButton confirmCharacter;
@@ -18,6 +21,10 @@ public class characterCreator extends JFrame implements ActionListener {
     private JLabel Label8;
     private Character C=new Character();
 
+    /**
+     * This constructor constructs our character creator object
+     * @param C The player's character
+     */
     public characterCreator(Character C){
         this.C=C;
         this.confirmCharacter=new JButton();
@@ -92,34 +99,66 @@ public class characterCreator extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     * This function updates the label for the character name
+     * @param characterName the Character's assigned name
+     */
     private void updateName(String characterName){
         Label1.setText("CHARACTER NAME: "+characterName);
     }
 
+    /**
+     * This function updates the label for the character's jobclass
+     * @param JOB_CLASS The character's Jobclass
+     */
     private void updateJobClassLabel(String JOB_CLASS){
         Label2.setText("CHARACTER JOBCLASS: "+JOB_CLASS);
     }
 
+    /**
+     * This function updates the label for the character's HP stat
+     * @param HP The character's HP stat
+     */
     private void updateHPLabel(int HP){
         Label3.setText("CHARACTER HP: "+HP);
     }
 
+    /**
+     * This function updates the label for the character's DEX stat
+     * @param DEX The character's DEX stat
+     */
     private void updateDEXLabel(int DEX){
         Label4.setText("CHARACTER DEX: "+DEX);
     }
 
+    /**
+     * This function updates the label for the character's INT stat
+     * @param INT The character's INT stat
+     */
     private void updateINTLabel(int INT){
         Label5.setText("CHARACTER INT: "+INT);
     }
 
+    /**
+     * This function updates the label for the character's END stat
+     * @param END The character's END stat
+     */
     private void updateENDLabel(int END){
         Label6.setText("CHARACTER END: "+END);
     }
 
+    /**
+     * This function updates the label for the character's STR stat
+     * @param STR The character's STR stat
+     */
     private void updateSTRLabel(int STR){
         Label7.setText("CHARACTER STR: "+STR);
     }
 
+    /**
+     * This function updatest the label for the character's FTH stat
+     * @param FTH The character's FTH stat
+     */
     private void updateFTHLabel(int FTH){
         Label8.setText("CHARACTER FTH: "+FTH);
     }

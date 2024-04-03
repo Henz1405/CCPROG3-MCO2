@@ -6,6 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
+/**
+ * Represents the JFrame where the player can move through the game's levels.
+ */
 public class levelMovement extends JFrame implements KeyListener {
     private static final int CELL_SIZE = 30;
     private static final int PLAYER_SIZE = 20;
@@ -26,6 +29,18 @@ public class levelMovement extends JFrame implements KeyListener {
     private String areaName;
     Random random = new Random();
 
+    /**
+     * Constructs a new levelMovement object.
+     *
+     * @param C                The character object representing the player.
+     * @param map              The map of the current level.
+     * @param areaName         The name of the current area.
+     * @param playerX          The initial X coordinate of the player.
+     * @param playerY          The initial Y coordinate of the player.
+     * @param areaIndex        The index of the current area.
+     * @param bossTileCoordinates The coordinates of the boss tile.
+     * @param playerFloor      The current floor of the player.
+     */
     public levelMovement(Character C, char map[][][], String areaName, int playerX, int playerY, int areaIndex, bossTileCoordinates bossTileCoordinates, int playerFloor) {
         this.C = C;
         this.playerFloor=playerFloor;
@@ -62,14 +77,23 @@ public class levelMovement extends JFrame implements KeyListener {
         });
     }
 
+    /**
+     * Updates the label for the player's runes
+     */
     private void updateDisplayRunes(){
         displayRunes.setText("RUNES: "+this.C.getPLAYER_RUNES());
     }
 
+    /**
+     * Updates the display of the player's maximum health.
+     */
     private void updateDisplayPLAYER_MAX_HEALTH(){
         displayPLAYER_MAX_HEALTH.setText("PLAYER MAX HEALTH: "+this.C.getPLAYER_MAX_HEALTH());
     }
 
+    /**
+     * Updates the offset for rendering the map based on the window size.
+     */
     private void updateOffset() {
         int gridWidth = this.map[playerFloor][0].length * CELL_SIZE;
         int gridHeight = this.map[playerFloor].length * CELL_SIZE;
@@ -78,6 +102,9 @@ public class levelMovement extends JFrame implements KeyListener {
         offsetY = (getHeight() - gridHeight) / 2;
     }
 
+    /**
+     * Render's the level map
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -97,6 +124,11 @@ public class levelMovement extends JFrame implements KeyListener {
                 PLAYER_SIZE, PLAYER_SIZE);
     }
 
+    /**
+     * Calculates the movement of the player
+     * @param dx The change in the X coordinate
+     * @param dy The change in the Y coordinate
+     */
     private void movePlayer(int dx, int dy) {
         int newX = playerX + dx;
         int newY = playerY + dy;
@@ -278,6 +310,10 @@ public class levelMovement extends JFrame implements KeyListener {
                         gameLobby gameLobby=new gameLobby(this.C);
                         this.dispose();
                     }
+                    else if(this.map[playerFloor][playerY][playerX]=='C'){
+                        credits credits=new credits();
+                        this.dispose();
+                    }
                 }
                 break;
                 }
@@ -293,6 +329,15 @@ public class levelMovement extends JFrame implements KeyListener {
     public void keyReleased(KeyEvent e) {
     }
 
+    /**
+     * Check if player stepped on a spawntile and deactivates it. 
+     * @param playerRow The player's Y coordinate
+     * @param playerCol The player's X coordinate
+     * @param playerFloor The player's current floor number
+     * @param SpawnTiles The array containing the coordinates for the spawntiles
+     * @param map The current map
+     * @return True if the player steps on a spawntile, false if not. 
+     */
     private boolean checkSpawnTile(int playerRow, int playerCol, int playerFloor, int[][]SpawnTiles, char[][][]map)
     {
         for (int i=0; i<SpawnTiles.length; i++)
@@ -310,6 +355,15 @@ public class levelMovement extends JFrame implements KeyListener {
         return false;
     }
 
+    /**
+     * Checks if the player steps on a doortile
+     * @param playerRow The player's Y coordinate
+     * @param playerCol The player's X coordinate
+     * @param playerFloor The player's current floor number
+     * @param doorTiles The array containing the coordinates for the doortiles
+     * @param map The current map
+     * @return True if the player steps on a doortile, false if not.
+     */
     private boolean checkDoorTile(int playerRow, int playerCol, int playerFloor, int[][]doorTiles, char[][][]map)
     {
         for (int i=0; i<doorTiles.length; i++)
@@ -325,6 +379,15 @@ public class levelMovement extends JFrame implements KeyListener {
         return false;
     }
 
+    /**
+     * Activates a doortile when the player interacts with it.
+     * @param playerRow The player's Y coordinate
+     * @param playerCol The player's X coordinate
+     * @param playerFloor The player's current floor number
+     * @param doorTiles The array containing the coordinates for the doortiles
+     * @param map The current map
+     * @return An array representing the coordinates of where the doortile sends you too. 
+     */
     private int[] activateDoor(int playerRow, int playerCol, int playerFloor, int[][]doorTiles, char[][][]map)
     {
         int[] arr={0, 0, 0};
@@ -344,6 +407,11 @@ public class levelMovement extends JFrame implements KeyListener {
         return arr;
     }
 
+    /**
+     * Calculates the damage for the enemy's turn based on the enemy's type.
+     * @param enemy Current enemy
+     * @return The enemy's next attack.
+     */
     private int calculateDamage(Enemy enemy)
     {
         
@@ -387,6 +455,12 @@ public class levelMovement extends JFrame implements KeyListener {
         return 0;
     }
 
+    /**
+     * Checks the health of both the Player Character and the enemy
+     * @param enemy Current enemy
+     * @param C Player Character
+     * @return returns 1 if both player and enemy are still alive, returns 2 if the enemy is dead, and returns 3 if the player died
+     */
     private int checkHealth(Enemy enemy, Character C)
     {
         if (C.getPLAYER_MAX_HEALTH()>0&&enemy.getENEMY_HEALTH()>0)
@@ -405,6 +479,11 @@ public class levelMovement extends JFrame implements KeyListener {
         return 0;
     }
 
+    /**
+     * Manages the battle between the player and the enemy
+     * @param E The current enemy
+     * @return Returns 0 if player looses, returns 1 if player wins, and returns -1 for debugging purposes
+     */
     private int battleManager(Enemy E){
         boolean playerTurn;
         boolean battleStart=true;

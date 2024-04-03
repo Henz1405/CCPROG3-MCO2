@@ -1,6 +1,9 @@
 import java.awt.Font;
 import javax.swing.*;
 
+/**
+ * Represents the game lobby screen where the player can access various game features.
+ */
 public class gameLobby extends JFrame{
     private Character C;
     private JButton fastTravel;
@@ -18,6 +21,11 @@ public class gameLobby extends JFrame{
     private bossTileCoordinates bossTileCoordinates=new bossTileCoordinates();
     private int playerFloor=0;
 
+    /**
+     * Constructs a new game lobby screen.
+     *
+     * @param C The character object representing the player.
+     */
     public gameLobby(Character C){
         this.C=C;
         this.C.setPLAYER_MAX_HEALTH(100*((this.C.getPLAYER_HP()+this.C.getEquippedWeapon().getWeaponHp())));
@@ -88,6 +96,10 @@ public class gameLobby extends JFrame{
         updateJobClassLabel(this.C.getPLAYER_JOBCLASS());
         updateRunesLabel(this.C.getPLAYER_RUNES());
     }
+
+    /**
+     * Opens the level movement screen based on the player's choice.
+     */
     private void openLevelMovement(){
         String input=JOptionPane.showInputDialog("(1) Stormveil Castle\n(2) Raya Lucaria\n(3) Elden Throne");
         switch (input){
@@ -116,36 +128,71 @@ public class gameLobby extends JFrame{
         }
     }
 
+    /**
+     * Opens the inventory screen.
+     */
     private void openInventory(){
         inventory inventory=new inventory(this.C);
         this.dispose();
     }
+
+    /**
+     * Opens the store screen.
+     */
     private void openStore(){
         store store=new store(this.C);
         this.dispose();
     }
 
+    /**
+     * Updates the character name label.
+     *
+     * @param name The new name to display.
+     */
     private void updateNameLabel(String name){
         characterName.setText("CHARACTER NAME: "+name);
     }
 
+    /**
+     * Updates the character level label.
+     *
+     * @param level The new level to display.
+     */
     private void updateLevelLabel(int level){
         characterLevel.setText("CHARACTER LEVEL: "+level);
     }
 
+    /**
+     * Updates the character job class label.
+     *
+     * @param jobClass The new job class to display.
+     */
     private void updateJobClassLabel(String jobClass){
         characterJobClass.setText("CHARACTER JOB CLASS: "+jobClass);
     }
 
+    /**
+     * Updates the character runes label.
+     *
+     * @param runes The new number of runes to display.
+     */
     private void updateRunesLabel(long runes){
         characterRunes.setText("CHARACTER RUNES: "+runes);
     }
 
+    /**
+     * Opens the title screen.
+     *
+     * @param C The character object representing the player.
+     */
     private void openTitleScreen(Character C){
         titleScreen titleScreen=new titleScreen(C);
         this.dispose();
     }
 
+    /**
+     * Opens the level up screen.
+     */
     private void openLevelUp(){
         levelUp levelUp=new levelUp(this.C);
         this.dispose();

@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.Font;
 
+/**
+ * Represents the inventory screen where the player can manage their inventory and equip weapons.
+ */
 public class inventory extends JFrame {
     private Character C;
     private JButton quitGame;
@@ -8,6 +11,11 @@ public class inventory extends JFrame {
     private JLabel equippedWeapon;
     private JList<String> list;
 
+     /**
+     * Constructs a new inventory screen.
+     *
+     * @param C The character object representing the player.
+     */
     inventory(Character C){
         this.C=C;
 
@@ -39,6 +47,10 @@ public class inventory extends JFrame {
         updateEquippedWeapon();
         displayInventory();
     }
+
+    /**
+     * Allows the player to equip a weapon from their inventory.
+     */
     private void equipWeapon(){
         try {
             int option=Integer.parseInt(JOptionPane.showInputDialog("ENTER WEAPON INDEX (0: first)"));
@@ -60,7 +72,9 @@ public class inventory extends JFrame {
         }
     } 
 
-
+    /**
+     * Displays the player's inventory.
+     */
     private void displayInventory(){
         if (this.C.getInventory().isEmpty()){
             JLabel JLabel=new JLabel();
@@ -81,6 +95,9 @@ public class inventory extends JFrame {
         }
     }
 
+    /**
+     * Updates the label showing the currently equipped weapon.
+     */
     private void updateEquippedWeapon(){
         if (this.C.getEquippedWeapon().getWeaponName()==null){
             equippedWeapon.setText("EQUIPPED WEAPON: NONE");
@@ -91,6 +108,9 @@ public class inventory extends JFrame {
         }
     }
 
+    /**
+     * Opens the game lobby screen.
+     */
     private void openGameLobby(){
         gameLobby gameLobby=new gameLobby(this.C);
         this.dispose();

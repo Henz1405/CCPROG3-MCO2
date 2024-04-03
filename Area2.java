@@ -1,3 +1,9 @@
+/**
+ * The Area2 class contains the map of Area two 
+ * and its multiple floors, the starting position <br>
+ * of the player, its name, and its index. 
+ */
+
 public class Area2 {
     private int playerRow = 1;//Player's starting Y position
     private int playerCol = 2;//Player's starting X position

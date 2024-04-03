@@ -2,6 +2,9 @@ import java.awt.Font;
 
 import javax.swing.*;
 
+/**
+ * JFrame subclass for handling the level up process of a character.
+ */
 public class levelUp extends JFrame{
     private Character C;
     private int LEVEL_UP_RUNE_COST;
@@ -17,6 +20,10 @@ public class levelUp extends JFrame{
     private JButton backButton;
     private JButton levelUp;
 
+    /**
+     * Constructs a new levelUp frame for a given character.
+     * @param C The character to level up.
+     */
     levelUp(Character C){
         this.C=C;
         LEVEL_UP_RUNE_COST=(this.C.getPLAYER_LEVEL()*100)/2;
@@ -90,10 +97,19 @@ public class levelUp extends JFrame{
         updateDisplayLevel(this.C.getPLAYER_LEVEL());
         updateDisplayCost(LEVEL_UP_RUNE_COST);
     }
+
+    /**
+     * Updates the display of the player's level.
+     * @param level The player's level to display.
+     */
     private void updateDisplayLevel(int level){
         displayLevel.setText("LEVEL: "+level);
     }
 
+    /**
+     * Displays a message if the player does not have enough runes to level up.
+     * Otherwise, prompts the player to choose a stat to increase.
+     */
     private void levelUpOptions(){
         if (checkRuneAmount(this.C, this.LEVEL_UP_RUNE_COST)==false){
             JOptionPane.showMessageDialog(null, "NOT ENOUGH RUNES");
@@ -167,43 +183,84 @@ public class levelUp extends JFrame{
         }
     }
 
+    /**
+     * Opens the game lobby frame and disposes of the current frame.
+     */
     private void openGameLobby(){
         gameLobby gameLobby=new gameLobby(this.C);
         this.dispose();
     }
 
+    /**
+     * Updates the display of the level up cost.
+     * @param Cost The cost to display.
+     */
     private void updateDisplayCost(int Cost){
         displayCost.setText("COST: "+Cost);
     }
 
+    /**
+     * Updates the display of the player's faith stat.
+     * @param Fth The faith stat to display.
+     */
     private void updateDisplayFth(int Fth){
         displayFth.setText("FTH: "+Fth);
     }
 
+    /**
+     * Updates the display of the player's intelligence stat.
+     * @param Int The intelligence stat to display.
+     */
     private void updateDisplayInt(int Int){
         displayInt.setText("INT: "+Int);
     }
 
+    /**
+     * Updates the display of the player's strength stat.
+     * @param Str The strength stat to display.
+     */
     private void updateDisplayStr(int Str){
         displayStr.setText("STR: "+Str);
     }
 
+    /**
+     * Updates the display of the player's dexterity stat.
+     * @param Dex The dexterity stat to display.
+     */
     private void updateDisplayDex(int Dex){
         displayDex.setText("DEX: "+Dex);
     }
 
+    /**
+     * Updates the display of the player's runes.
+     * @param runes The number of runes to display.
+     */
     private void updateDisplayRunes(int runes){
         displayRunes.setText("RUNES: "+runes);
     }
 
+    /**
+     * Updates the display of the player's endurance stat.
+     * @param End The endurance stat to display.
+     */
     private void updatedisplayEnd(int End){
         displayEnd.setText("END: "+End);
     }
 
+    /**
+     * Updates the display of the player's health stat.
+     * @param Hp The health stat to display.
+     */
     private void updateDisplayHp(int Hp){
         displayHp.setText("HP: "+Hp);
     }
 
+    /**
+     * Checks if the player has enough runes to level up.
+     * @param C The character to check.
+     * @param LEVEL_UP_RUNE_COST The cost of leveling up.
+     * @return True if the player has enough runes, false otherwise.
+     */
     private boolean checkRuneAmount(Character C, int LEVEL_UP_RUNE_COST)
     {   
         if (C.getPLAYER_RUNES()>=LEVEL_UP_RUNE_COST)

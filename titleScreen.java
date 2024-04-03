@@ -3,17 +3,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the titlescreen of the game.
+ */
 public class titleScreen extends JFrame {
     private JButton enterButton;
     private JButton exitButton;
     private Character C;
 
+    /**
+     * This constructor constructs our titlescreen object. 
+     * 
+     * @param C The player's Character
+     */
     public titleScreen(Character C) {
         this.C=C;
         setTitle("Title Screen");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Center the window
+        setLocationRelativeTo(null); 
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 1));
@@ -49,6 +57,9 @@ public class titleScreen extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * This function opens the character creator in response to the button action listenter. 
+     */
     private void openCharacterCreator() {
         if (this.C.getisCreated()==false){
             JOptionPane.showMessageDialog(null, "Entering the character creator...");

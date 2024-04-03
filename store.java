@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.Font;
 
+/**
+ * Represents a store where the player can buy weapons using runes.
+ */
 public class store extends JFrame {
     private Character C;
     private JLabel storeDisplay;
@@ -13,6 +16,10 @@ public class store extends JFrame {
     private JButton staves;
     private JButton seals;
 
+    /**
+     * Constructs a new store object.
+     * @param C The character object representing the player.
+     */
     store(Character C){
         this.C=C;
 
@@ -86,15 +93,27 @@ public class store extends JFrame {
         updateDisplayRunes();
     }
 
+    /**
+     * Updates the display of runes available to the player.
+     */
     private void updateDisplayRunes(){
         runes.setText("RUNES: "+this.C.getPLAYER_RUNES());
     }
 
+    /**
+     * Opens the game lobby window.
+     */
     private void openGameLobby(){
         gameLobby gameLobby=new gameLobby(this.C);
         this.dispose();
     }
 
+    /**
+     * Checks if the player has enough runes to purchase an item.
+     * @param runes The player's current runes.
+     * @param price The price of the item.
+     * @return True if the player has enough runes, false otherwise.
+     */
     private boolean checkPrice(int runes, int price){
         if (runes>=price){
             return true;
@@ -103,6 +122,9 @@ public class store extends JFrame {
         return false;
     }
 
+    /**
+     * Menu that allows you to buy swords
+     */
     private void swordMenu(){
         String choice=JOptionPane.showInputDialog("[1] Short Sword (1000)\n[2] Rogier's Rapier (2000)\n[3] Coded Sword (4000)\n[4] Sword of Night and Flame (8000)");
         int confirm;
@@ -193,6 +215,9 @@ public class store extends JFrame {
         }
     }
 
+    /**
+     * Menu that allows you to buy Katanas
+     */
     private void katanasMenu() {
         String choice=JOptionPane.showInputDialog("[1] Uchigatana (1875)\n[2] Moonveil (3750)\n[3] Rivers of Blood (7500)\n[4] Hand of Malenia (15000)");
         int confirm;
@@ -283,6 +308,9 @@ public class store extends JFrame {
         }
     }
 
+    /**
+     * Menu that allows you to buy whips
+     */
     private void whipsMenu(){
         String choice=JOptionPane.showInputDialog("[1] Whip (1500)\n[2] Urumi (3000)\n[3] Thorned Whip (5000)\n[4] Hoslow's Petal Whip (10000)");
         int confirm;
@@ -373,6 +401,9 @@ public class store extends JFrame {
         }
     }
 
+    /**
+     * Menu that allows you to buy greatswords
+     */
     private void greatSwordsMenu(){
         String choice=JOptionPane.showInputDialog("[1] Claymore (3000)\n[2] Starscourge Greatsword (6000)\n[3] Inseparable Sword (12000)\n[4] Maliketh's Black Blade (24000)");
         int confirm;
@@ -463,6 +494,9 @@ public class store extends JFrame {
         }
     }
 
+    /**
+     * Menu that allows you to buy staves
+     */
     private void stavesMenu(){
         String choice=JOptionPane.showInputDialog("[1] Astrologer's Staff (2000)\n[2] Albinauric Staff (4000)\n[3] Staff of the Guilty (8000)\n[4] Carian Regal Scepter (16000)");
         int confirm;
@@ -553,6 +587,9 @@ public class store extends JFrame {
         }
     }
 
+    /**
+     * Menu that allows you to buy seals
+     */
     private void sealsMenu(){
         String choice=JOptionPane.showInputDialog("[1] Finger Seal (2500)\n[2] Godslayer's Seal (5000)\n[3] Golden Order Seal (10000)\n[4] Dragon Communion Seal (15000)");
         int confirm;
