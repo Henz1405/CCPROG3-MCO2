@@ -60,7 +60,6 @@ public class Area1 {
         return map1;
     }
     
-
     public int getPlayerCol() {
         return playerCol;
     }

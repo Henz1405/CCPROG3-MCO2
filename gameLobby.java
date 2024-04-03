@@ -15,10 +15,12 @@ public class gameLobby extends JFrame{
     private Area1 Area1=new Area1();
     private Area2 Area2=new Area2();
     private Area3 Area3=new Area3();
+    private bossTileCoordinates bossTileCoordinates=new bossTileCoordinates();
+    private int playerFloor=0;
 
     public gameLobby(Character C){
         this.C=C;
-
+        this.C.setPLAYER_MAX_HEALTH(100*((this.C.getPLAYER_HP()+this.C.getEquippedWeapon().getWeaponHp())));
         characterName=new JLabel();
         characterName.setBounds(170, 30, 500, 50);
 
@@ -90,22 +92,22 @@ public class gameLobby extends JFrame{
         String input=JOptionPane.showInputDialog("(1) Stormveil Castle\n(2) Raya Lucaria\n(3) Elden Throne");
         switch (input){
             case "1":
-                levelMovement levelMovement=new levelMovement(this.C, this.Area1.getMap1(), this.Area1.getAreaName(), this.Area1.getPlayerCol(), this.Area1.getPlayerRow(), this.Area1.getAreaIndex());
+                levelMovement levelMovement=new levelMovement(this.C, this.Area1.getMap1(), this.Area1.getAreaName(), this.Area1.getPlayerCol(), this.Area1.getPlayerRow(), this.Area1.getAreaIndex(), this.bossTileCoordinates, this.playerFloor);
                 levelMovement.setVisible(true);
                 this.dispose();
                 break;
             case "2":
-                levelMovement levelMovement2=new levelMovement(this.C, this.Area2.getMap2(), this.Area2.getAreaName(), this.Area2.getPlayerCol(), this.Area2.getPlayerRow(), this.Area2.getAreaIndex());
+                levelMovement levelMovement2=new levelMovement(this.C, this.Area2.getMap2(), this.Area2.getAreaName(), this.Area2.getPlayerCol(), this.Area2.getPlayerRow(), this.Area2.getAreaIndex(), this.bossTileCoordinates, this.playerFloor);
                 levelMovement2.setVisible(true);
                 this.dispose();
                 break;
             case "3":
-            if (this.C.getDefeatedBossOne()==false&&this.C.getDefeatedBossTwo()==false){
+            if (this.C.getDefeatedBossOne()==false||this.C.getDefeatedBossTwo()==false){
                 JOptionPane.showMessageDialog(null, "Defeat the Grafted Demigod and The Queen of the moon\n Only then can you enter");
                 break;
             }
             else if(this.C.getDefeatedBossOne()==true&&this.C.getDefeatedBossTwo()==true){
-                levelMovement levelMovement3=new levelMovement(this.C, this.Area3.getMap3(), this.Area3.getAreaName(), this.Area3.getPlayerCol(), this.Area3.getPlayerRow(), this.Area3.getAreaIndex());
+                levelMovement levelMovement3=new levelMovement(this.C, this.Area3.getMap3(), this.Area3.getAreaName(), this.Area3.getPlayerCol(), this.Area3.getPlayerRow(), this.Area3.getAreaIndex(), this.bossTileCoordinates, this.playerFloor);
                 levelMovement3.setVisible(true);
                 this.dispose();
                 break;
@@ -135,7 +137,7 @@ public class gameLobby extends JFrame{
         characterJobClass.setText("CHARACTER JOB CLASS: "+jobClass);
     }
 
-    private void updateRunesLabel(int runes){
+    private void updateRunesLabel(long runes){
         characterRunes.setText("CHARACTER RUNES: "+runes);
     }
 

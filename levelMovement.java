@@ -11,26 +11,27 @@ public class levelMovement extends JFrame implements KeyListener {
     private static final int PLAYER_SIZE = 20;
     private int playerX = 1;
     private int playerY = 0;
-    private int playerFloor = 0;
+    private int playerFloor;
     private Character C;
     private char[][][] map;
     private int offsetX;
     private int offsetY;
     private doorTileCoordinates doorTileCoordinates=new doorTileCoordinates();
     private spawnTileCoordinates spawnTileCoordinates=new spawnTileCoordinates();
+    private bossTileCoordinates bossTileCoordinates;
     private int areaIndex;
     private JLabel displayRunes;
     private JLabel displayPLAYER_MAX_HEALTH;
     private EnemyManager enemyManager=new EnemyManager();
+    private String areaName;
+    Random random = new Random();
 
-    public levelMovement(Character C, char map[][][], String areaName, int playerX, int playerY, int areaIndex) {
+    public levelMovement(Character C, char map[][][], String areaName, int playerX, int playerY, int areaIndex, bossTileCoordinates bossTileCoordinates, int playerFloor) {
         this.C = C;
-        if (this.C.getPLAYER_MAX_HEALTH()==0)
-        {
-            this.C.setPLAYER_MAX_HEALTH(100*((this.C.getPLAYER_HP()+this.C.getEquippedWeapon().getWeaponHp())));
-        }
-        
+        this.playerFloor=playerFloor;
+        this.bossTileCoordinates=bossTileCoordinates;
         this.map = map;
+        this.areaName=areaName;
         this.playerX=playerX;
         this.playerY=playerY;
         this.areaIndex=areaIndex;
@@ -144,8 +145,14 @@ public class levelMovement extends JFrame implements KeyListener {
                         double probability = rand.nextDouble();
                         if (probability<0.75){
                             Enemy enemy=enemyManager.generateEnemy(this.areaIndex);
-                            battleManager battleManager=new battleManager(this.C, this.map, this.playerX, this.playerY, this.areaIndex, enemy);
-                            this.dispose();
+                            if (battleManager(enemy)==0){
+                                gameLobby gameLobby=new gameLobby(this.C);
+                                spawnTileCoordinates.resetStatus(this.map);
+                                this.dispose();
+                            }
+                            updateDisplayPLAYER_MAX_HEALTH();
+                            updateDisplayRunes();
+                            repaint();
                         }
                         else{
                             int randomNumber = (rand.nextInt(101) + 50)*this.areaIndex;
@@ -167,6 +174,21 @@ public class levelMovement extends JFrame implements KeyListener {
                         gameLobby gameLobby=new gameLobby(this.C);
                         this.dispose();
                     }
+                    else if(this.map[playerFloor][playerY][playerX]==this.map[this.bossTileCoordinates.getBossFloor1()][this.bossTileCoordinates.getBossY1()][this.bossTileCoordinates.getBossX1()]&&this.bossTileCoordinates.getboss1Defeat()==false){
+                        JOptionPane.showMessageDialog(null, "BOSS TILE");
+                        Enemy boss=enemyManager.generateBoss(this.areaIndex);
+                        if (battleManager(boss)==0){
+                            gameLobby gameLobby=new gameLobby(this.C);
+                            spawnTileCoordinates.resetStatus(this.map);
+                            this.dispose();
+                        };
+                        updateDisplayPLAYER_MAX_HEALTH();
+                        updateDisplayRunes();
+                        repaint();
+                    }
+                    else if(this.map[playerFloor][playerY][playerX]==this.map[this.bossTileCoordinates.getBossFloor1()][this.bossTileCoordinates.getBossY1()][this.bossTileCoordinates.getBossX1()]&&this.bossTileCoordinates.getboss1Defeat()==true){
+                        JOptionPane.showMessageDialog(null, "BOSS DEFEATED");
+                    }
                 }
                 else if(areaIndex==2){
                     if (checkSpawnTile(playerY, playerX, playerFloor, spawnTileCoordinates.getAreaTwoSpawnTiles(), this.map)==true){
@@ -174,7 +196,14 @@ public class levelMovement extends JFrame implements KeyListener {
                         double probability = rand.nextDouble();
                         if (probability<0.75){
                             Enemy enemy=enemyManager.generateEnemy(this.areaIndex);
-                            JOptionPane.showMessageDialog(null, "BATTLE!!\n "+"ENEMY NAME: "+enemy.getENEMY_NAME()+"\n ENEMY PHYS_DEF: "+enemy.getPHYS_DEF()+"\n ENEMY SOR_DEF: "+enemy.getSOR_DEF()+"\nENEMY INC_DEF: "+enemy.getINC_DEF());
+                            if (battleManager(enemy)==0){
+                                gameLobby gameLobby=new gameLobby(this.C);
+                                spawnTileCoordinates.resetStatus(this.map);
+                                this.dispose();
+                            }
+                            updateDisplayPLAYER_MAX_HEALTH();
+                            updateDisplayRunes();
+                            repaint();
                         }
                         else{
                             int randomNumber = (rand.nextInt(101) + 50)*this.areaIndex;
@@ -189,6 +218,21 @@ public class levelMovement extends JFrame implements KeyListener {
                         playerY=arr[1];
                         playerX=arr[2];
                         repaint();
+                    }
+                    else if(this.map[playerFloor][playerY][playerX]==this.map[this.bossTileCoordinates.getBossFloor2()][this.bossTileCoordinates.getBossY2()][this.bossTileCoordinates.getBossX2()]&&this.bossTileCoordinates.getboss2Defeat()==false){
+                        JOptionPane.showMessageDialog(null, "BOSS TILE");
+                        Enemy boss=enemyManager.generateBoss(this.areaIndex);
+                        if (battleManager(boss)==0){
+                            gameLobby gameLobby=new gameLobby(this.C);
+                            spawnTileCoordinates.resetStatus(this.map);
+                            this.dispose();
+                        }
+                        updateDisplayPLAYER_MAX_HEALTH();
+                        updateDisplayRunes();
+                        repaint();
+                    }
+                    else if(this.map[playerFloor][playerY][playerX]==this.map[this.bossTileCoordinates.getBossFloor2()][this.bossTileCoordinates.getBossY2()][this.bossTileCoordinates.getBossX2()]&&this.bossTileCoordinates.getboss2Defeat()==true){
+                        JOptionPane.showMessageDialog(null, "BOSS DEFEATED");
                     }
                     else if(this.map[playerFloor][playerY][playerX]=='F')
                     {
@@ -212,6 +256,21 @@ public class levelMovement extends JFrame implements KeyListener {
                         playerY=arr[1];
                         playerX=arr[2];
                         repaint();
+                    }
+                    else if(this.map[playerFloor][playerY][playerX]==this.map[this.bossTileCoordinates.getBossFloor3()][this.bossTileCoordinates.getBossY3()][this.bossTileCoordinates.getBossX3()]&&this.bossTileCoordinates.getboss3Defeat()==false){
+                        JOptionPane.showMessageDialog(null, "BOSS TILE");
+                        Enemy boss=enemyManager.generateBoss(this.areaIndex);
+                        if (battleManager(boss)==0){
+                            gameLobby gameLobby=new gameLobby(this.C);
+                            spawnTileCoordinates.resetStatus(this.map);
+                            this.dispose();
+                        }
+                        updateDisplayPLAYER_MAX_HEALTH();
+                        updateDisplayRunes();
+                        repaint();
+                    }
+                    else if(this.map[playerFloor][playerY][playerX]==this.map[this.bossTileCoordinates.getBossFloor3()][this.bossTileCoordinates.getBossY3()][this.bossTileCoordinates.getBossX3()]&&this.bossTileCoordinates.getboss3Defeat()==true){
+                        JOptionPane.showMessageDialog(null, "BOSS DEFEATED");
                     }
                     else if(this.map[playerFloor][playerY][playerX]=='F')
                     {
@@ -283,5 +342,183 @@ public class levelMovement extends JFrame implements KeyListener {
            }
         }
         return arr;
+    }
+
+    private int calculateDamage(Enemy enemy)
+    {
+        
+        if (enemy.getEnemyType()==1)
+        {
+            int ENEMY_ATTACK=random.nextInt(11) + 70;
+            enemy.setENEMY_ATTACK(ENEMY_ATTACK);
+            return ENEMY_ATTACK;
+        }
+        else if (enemy.getEnemyType()==2)
+        {
+            int ENEMY_ATTACK=random.nextInt(11) + 110;
+            enemy.setENEMY_ATTACK(ENEMY_ATTACK);
+            return ENEMY_ATTACK;
+        }
+        else if (enemy.getEnemyType()==3)
+        {
+            int ENEMY_ATTACK=random.nextInt(11) + 120;
+            enemy.setENEMY_ATTACK(ENEMY_ATTACK);
+            return ENEMY_ATTACK;
+        }
+        else if(enemy.getEnemyType()==4)
+        {
+            int ENEMY_ATTACK=random.nextInt(151) + 150;
+            enemy.setENEMY_ATTACK(ENEMY_ATTACK);
+            return ENEMY_ATTACK;
+        }
+        else if(enemy.getEnemyType()==5)
+        {
+            int ENEMY_ATTACK=random.nextInt(101) + 200;
+            enemy.setENEMY_ATTACK(ENEMY_ATTACK);
+            return ENEMY_ATTACK;
+        }
+        else if(enemy.getEnemyType()==6)
+        {
+            int ENEMY_ATTACK=random.nextInt(251) + 250;
+            enemy.setENEMY_ATTACK(ENEMY_ATTACK);
+            return ENEMY_ATTACK;
+        }
+
+        return 0;
+    }
+
+    private int checkHealth(Enemy enemy, Character C)
+    {
+        if (C.getPLAYER_MAX_HEALTH()>0&&enemy.getENEMY_HEALTH()>0)
+        {
+            return 1;//continue battle
+        }
+        else if(enemy.getENEMY_HEALTH()<=0||C.getPLAYER_MAX_HEALTH()<=0)
+        {
+            if (enemy.getENEMY_HEALTH()<=0){
+                return 2;// enemy died
+            }
+            else if(C.getPLAYER_MAX_HEALTH()<=0){
+                return 3;// player died
+            }
+        }
+        return 0;
+    }
+
+    private int battleManager(Enemy E){
+        boolean playerTurn;
+        boolean battleStart=true;
+        long DODGE_RATE=0;
+        int ENEMY_DAMAGE;
+
+        while (battleStart){
+            playerTurn=true;
+            ENEMY_DAMAGE=calculateDamage(E);
+            String choice=JOptionPane.showInputDialog("PLAYER HP: "+this.C.getPLAYER_MAX_HEALTH()+
+                                    
+                                        
+                                "\n\n\nEnemy name: "+E.getENEMY_NAME()+
+                                "\nEnemy Health: "+E.getENEMY_HEALTH()+
+                                "\nEnemy PHYS_DEF: "+E.getPHYS_DEF()+
+                                "\nEnemy SOR_DEF: "+E.getSOR_DEF()+
+                                "\nEnemy INC_DEF: "+E.getINC_DEF()+
+                                "\n\n\n(1) Attack\n(2) Dodge"+
+                                "\nIncoming enemy attack: "+ENEMY_DAMAGE);  
+            switch (choice) {
+                case "1":
+                    String choice2=JOptionPane.showInputDialog("(1) Physical Attack\n(2) Sorcery Attack\n(3) Incantation Attack");
+                    switch (choice2){
+                        case "1":
+                            long calculatedDamage=Math.round((this.C.getEquippedWeapon().getWeaponStr()+this.C.getPLAYER_STR())*(1-E.getPHYS_DEF()));
+                            int PHYSICAL_DAMAGE=(int) calculatedDamage;
+                            E.setENEMY_HEALTH(E.getENEMY_HEALTH()-PHYSICAL_DAMAGE);
+                            playerTurn=false;
+                            break;
+                        case "2":
+                            long calculatedDamage2=Math.round((this.C.getEquippedWeapon().getWeaponInt()+this.C.getPLAYER_INT())*(1-E.getSOR_DEF()));
+                            int SORCERY_DAMAGE=(int) calculatedDamage2;
+                            E.setENEMY_HEALTH(E.getENEMY_HEALTH()-SORCERY_DAMAGE);
+                            playerTurn=false;
+                            break;
+                        case "3":
+                            long calculatedDamage3=Math.round((this.C.getEquippedWeapon().getWeaponFth()+this.C.getPLAYER_FTH())*(1-E.getINC_DEF())); 
+                            int INCANTATION_DAMAGE=(int) calculatedDamage3;
+                            E.setENEMY_HEALTH(E.getENEMY_HEALTH()-INCANTATION_DAMAGE);
+                            playerTurn=false;
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(null, "NOT A VALID INPUT");
+                    }
+                    break;
+                case "2":
+                    DODGE_RATE=(20+((this.C.getPLAYER_END()+this.C.getEquippedWeapon().getWeaponEnd())/2)/100);
+                    playerTurn=false;
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "NOT A VALID INPUT");
+                    break;
+            } 
+
+            if (checkHealth(E, this.C)==1){
+                int randomNumber = random.nextInt(100) + 1;
+                if (randomNumber<=DODGE_RATE)
+                {
+                    JOptionPane.showMessageDialog(null, "DODGE SUCCESSFUL!");
+                }
+                else{
+                    C.setPLAYER_MAX_HEALTH(C.getPLAYER_MAX_HEALTH()-ENEMY_DAMAGE);
+                    if(checkHealth(E, this.C)==3)
+                    {
+                        battleStart=false;
+                        JOptionPane.showMessageDialog(null, "YOU DIED!!");
+                        return 0;
+                    }
+                }
+            }
+            else if(checkHealth(E, this.C)==2){
+            if (E.getEnemyType()==1||E.getEnemyType()==2||E.getEnemyType()==3)
+            {
+                battleStart=false;
+                int min = 50;
+                int max = 150;
+                int randomNumber = random.nextInt(max - min + 1) + min;
+                int RUNES_GAINED=areaIndex*randomNumber;
+                JOptionPane.showMessageDialog(null, "ENEMY FELLED");
+                JOptionPane.showMessageDialog(null, "RUNES GAINED: "+RUNES_GAINED);
+                this.C.setCharacterRunes(this.C.getPLAYER_RUNES()+RUNES_GAINED);
+                return 1;
+            }
+            else if(E.getEnemyType()==4||E.getEnemyType()==5||E.getEnemyType()==6){
+                battleStart=false;
+                if (E.getEnemyType()==4){
+                    int RUNES_GAINED=200*5;
+                    JOptionPane.showMessageDialog(null, "GREAT ENEMY FELLED");
+                    JOptionPane.showMessageDialog(null, "RUNES GAINED: "+RUNES_GAINED);
+                    this.C.setCharacterRunes(this.C.getPLAYER_RUNES()+RUNES_GAINED);
+                    this.C.setDefeatedBossOne(true);
+                    this.bossTileCoordinates.setboss1Defeat(true);
+                    return 1;
+                }
+                else if(E.getEnemyType()==5){
+                    int RUNES_GAINED=400*5;
+                    JOptionPane.showMessageDialog(null, "GREAT ENEMY FELLED");
+                    JOptionPane.showMessageDialog(null, "RUNES GAINED: "+RUNES_GAINED);
+                    this.C.setCharacterRunes(this.C.getPLAYER_RUNES()+RUNES_GAINED);
+                    this.C.setDefeatedBossTwo(true);
+                    this.bossTileCoordinates.setboss2Defeat(true);
+                    return 1;
+                }
+                else if(E.getEnemyType()==6){
+                    int RUNES_GAINED=800*5;
+                    JOptionPane.showMessageDialog(null, "GREAT ENEMY FELLED");
+                    JOptionPane.showMessageDialog(null, "RUNES GAINED: "+RUNES_GAINED);
+                    this.C.setCharacterRunes(this.C.getPLAYER_RUNES()+RUNES_GAINED);
+                    this.bossTileCoordinates.setboss3Defeat(true);
+                    return 1;
+                }
+            }    
+            }             
+        }
+        return -1;
     }
 }

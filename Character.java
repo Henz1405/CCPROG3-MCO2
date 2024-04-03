@@ -15,7 +15,7 @@ public class Character {
     private int PLAYER_END=0;
     private int PLAYER_STR=0;
     private int PLAYER_FTH=0;
-    private int PLAYER_RUNES=100000;
+    private int PLAYER_RUNES=10000;
     private boolean isCreated=false;
     private Weapon equippedWeapon=new Weapon();
     private int PLAYER_MAX_HEALTH=0;

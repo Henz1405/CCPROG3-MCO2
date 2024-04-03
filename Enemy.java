@@ -5,7 +5,7 @@
  */
 public class Enemy {
     private String ENEMY_NAME;
-    private long ENEMY_HEALTH;
+    private int ENEMY_HEALTH;
     private int ENEMY_ATTACK;
     private double PHYS_DEF;
     private double SOR_DEF;
@@ -33,7 +33,7 @@ public class Enemy {
         return enemyType;
     }
 
-    public void setENEMY_HEALTH(long eNEMY_HEALTH) {
+    public void setENEMY_HEALTH(int eNEMY_HEALTH) {
         ENEMY_HEALTH = eNEMY_HEALTH;
     }
 
@@ -45,7 +45,7 @@ public class Enemy {
         return ENEMY_ATTACK;
     }
 
-    public long getENEMY_HEALTH() {
+    public int getENEMY_HEALTH() {
         return ENEMY_HEALTH;
     }
     

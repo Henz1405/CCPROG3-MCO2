@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.Scanner;
 /**
  * The BattleManager class is in charge of generating 
  * enemy objects when an enemy is encountered through <br>
@@ -77,7 +76,7 @@ public class EnemyManager {
      * @param C  Player character
      * @param areaIndex  Current area index
      */
-    public Enemy generateBoss(int areaIndex, Scanner scanner)
+    public Enemy generateBoss(int areaIndex)
     {
         Enemy enemyvoid= new Enemy();
         if (areaIndex==1)
